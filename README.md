@@ -8,8 +8,3 @@ Essa técnica de aprendizado é geralmente conhecida como "aprendizado increment
 
 Aprender pequenas quantidades de vocabulário regularmente (ex.: 3 palavras por semana).
 Construir frases com o vocabulário acumulado assim que um número significativo de palavras for adquirido (como 50 palavras).
-
-### Definir passos iniciais de aprendizagem
-1. Aprender 3 palavras por semana, você pode desenhar, gravar um audio ou importar audio do google.
-2. Treinar com as palavras armazenadas, usando jogo da memoria.
-3. Quanto tiver armazenado 50 palavras, começar a montar frases com as palavras armazenadas, essas frases vão aparecer no jogo da memoria.
