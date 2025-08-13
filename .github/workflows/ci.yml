@@ -1,0 +1,29 @@
+name: CI - Python Tests with Docker Compose
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Construir containers
+        run: docker compose build
+
+      - name: Rodar testes dentro do container backend
+        run: docker compose run --rm backend pytest tests
+
+      - name: Derrubar containers
+        if: always()
+        run: docker compose down

@@ -2,6 +2,8 @@ version: "3.3"
 
 services:
   backend:
+    environment:
+      - PYTHONPATH=/app
     build: 
       context: ./backend
       dockerfile: Dockerfile
@@ -16,18 +18,17 @@ services:
       - ./backend:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-  # db:
-  #   image: postgres:15
-  #   container_name: postgres_db
-  #   restart: always
-  #   environment:
-  #     POSTGRES_USER: user
-  #     POSTGRES_PASSWORD: password
-  #     POSTGRES_DB: fastapi_db
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/app
+    command: npm run dev   # para rodar em modo produção, npm start
 
-# volumes:
-#   pgdata:
+  

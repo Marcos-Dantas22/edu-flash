@@ -1,7 +1,3 @@
-# construir um dockerfile para iniciar o servidor do backend e rodar os pacotes
-# saber como e a estrutura base de um projeto fast api com parte de configuração e utilizando env
-# conectar ao banco de dados no Neon Serverless Postgres
-
 FROM python:latest
 
 WORKDIR /app

@@ -1,5 +1,22 @@
-# construir um dockerfile para iniciar o servidor do frontend e instalar os pacotes
-# procurar estrutura base do nextJS, utilizando os componentes com na pasta base src/
-# adicionar os pacotes necessarios para utilizar react-hook-forms e zustand para controle de estado
-# utilizar axios para controler as requisições para o backend
-# instalar o tailwind css para criação dos componentes
+# Use uma imagem oficial Node.js para build e runtime
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copia package.json e package-lock para instalar dependências
+COPY package*.json ./
+
+# Instala dependências (prod + dev para build)
+RUN npm install
+
+# Copia todo o código fonte
+COPY . .
+
+# Expõe a porta padrão Next.js
+EXPOSE 3000
+
+# Build da aplicação Next.js
+RUN npm run build
+
+# Comando para iniciar a aplicação em modo produção
+# CMD ["npm", "start"]

@@ -7,6 +7,16 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+backend/__pycache__
+backend/tests/__pycache__
+__pycache__/          # Python cache geral
+*.py[cod]             # Arquivos compilados Python
+*.sqlite3             # Banco local SQLite (caso use)
+*.db                  # Outro formato de banco local comum
+.pytest_cache/        # Cache do pytest
+
+.venv/                # Ambiente virtual Python
+
 todo.txt
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -74,7 +84,7 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variable files
+# dotenv environment variable files (já tinha)
 .env
 .env.development.local
 .env.test.local
@@ -85,13 +95,15 @@ web_modules/
 .cache
 .parcel-cache
 
-# Next.js build output
+# Next.js build output (já tinha)
 .next
+.next/cache             # Cache extra Next.js
 out
 
 # Nuxt.js build / generate output
 .nuxt
 dist
+build                  # build padrão para JS/TS
 
 # Gatsby files
 .cache/
@@ -130,3 +142,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# IDEs (opcional, se quiser ignorar config local)
+.vscode/
+.idea/
+
+# Next.js / Turbopack caches (experimental)
+.turbo/
+.swc/
