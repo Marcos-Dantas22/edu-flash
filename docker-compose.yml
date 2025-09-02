@@ -18,17 +18,43 @@ services:
       - ./backend:/app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
-  frontend:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./frontend/.env
-    volumes:
-      - ./frontend:/app
-    command: npm run dev   # para rodar em modo produção, npm start
+  # frontend:
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - ./frontend/.env
+  #   volumes:
+  #     - ./frontend:/app
+  #   command: npm run dev   # para rodar em modo produção, npm start
 
+  db:
+    image: postgres:11
+    restart: always
+    container_name: edu-flash-db
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
   
+  db_test:
+    image: postgres:15
+    container_name: edu-flash-db-test
+    restart: always
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+      POSTGRES_DB: test_db
+    ports:
+      - "5433:5432"  
+    tmpfs:
+      - /var/lib/postgresql/data  # banco em memória → rápido e descartável
+
+      
+volumes:
+  postgres_data:
