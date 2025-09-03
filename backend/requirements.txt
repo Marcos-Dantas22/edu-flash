@@ -7,3 +7,5 @@ SQLAlchemy
 psycopg2-binary
 sentry-sdk[fastapi]
 pytest
+passlib[bcrypt]
+Faker==23.3.0

@@ -9,6 +9,11 @@ lerna-debug.log*
 
 backend/__pycache__
 backend/tests/__pycache__
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
 __pycache__/          # Python cache geral
 *.py[cod]             # Arquivos compilados Python
 *.sqlite3             # Banco local SQLite (caso use)
