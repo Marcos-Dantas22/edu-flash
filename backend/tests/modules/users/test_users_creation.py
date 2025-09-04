@@ -1,4 +1,3 @@
-from conftest import test_db
 from passlib.hash import bcrypt
 from modules.users.models import User
 from modules.users.utils import GenderEnum
