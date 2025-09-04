@@ -4,7 +4,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from core.database import Base
-from modules.users.utils import GenderEnum
+from modules.users.utils import GenderEnum, LanguageEnum
 from datetime import datetime
 from sqlalchemy.sql import func
 from passlib.hash import bcrypt
@@ -32,6 +32,118 @@ class User(Base):
 
     def check_password(self, plain_password):
         return bcrypt.verify(plain_password, self.password)
+    
+    # def display_name(self):
+    #     return self.name.title()
+
+    # # método customizado
+    # def greet(self):
+    #     return f"Olá, {self.name}!"
+
+class Student(Base):
+    __tablename__ = "students"
+
+    id = Column("id", Integer, primary_key=True, index=True)
+    user_id = Column("usuario", Integer, ForeignKey('users.id'), nullable=False)
+    user = relationship("User")
+
+    total_flash_hits = Column("total de flashcards acertados?", Integer, default=0)
+    total_flash_errors = Column("total de flashcards errados?", Integer, default=0)
+    total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
+    total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
+
+    ##TODO: adicionar manytomany para grupo de flashcards
+
+    is_active = Column("é ativo?", Boolean, default=True)
+    created = Column("criado em", DateTime, default=datetime.now())
+    last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
+
+    # @property
+    # def password(self):
+    #     raise AttributeError("Password is write-only!")
+    
+    # def display_name(self):
+    #     return self.name.title()
+
+    # # método customizado
+    # def greet(self):
+    #     return f"Olá, {self.name}!"
+
+class Teacher(Base):
+    __tablename__ = "teachers"
+
+    id = Column("id", Integer, primary_key=True, index=True)
+    user_id = Column("usuario", Integer, ForeignKey('users.id'), nullable=False)
+    user = relationship("User")
+
+    total_flash_hits = Column("total de flashcards acertados?", Integer, default=0)
+    total_flash_errors = Column("total de flashcards errados?", Integer, default=0)
+    total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
+    total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
+
+    ##TODO: adicionar manytomany para grupo de flashcards
+    
+    learners = relationship("Learner", back_populates="teacher")
+
+    is_active = Column("é ativo?", Boolean, default=True)
+    created = Column("criado em", DateTime, default=datetime.now())
+    last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
+
+    # @property
+    # def password(self):
+    #     raise AttributeError("Password is write-only!")
+    
+    # def display_name(self):
+    #     return self.name.title()
+
+    # # método customizado
+    # def greet(self):
+    #     return f"Olá, {self.name}!"
+
+
+class Learner(Base):
+    __tablename__ = "learners"
+
+    id = Column("id", Integer, primary_key=True, index=True)
+    user_id = Column("usuario", Integer, ForeignKey('users.id'), nullable=False)
+    user = relationship("User")
+
+    total_flash_hits = Column("total de flashcards acertados?", Integer, default=0)
+    total_flash_errors = Column("total de flashcards errados?", Integer, default=0)
+    total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
+    total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
+
+    ##TODO: adicionar manytomany para grupo de flashcards em progresso
+
+    teacher_id = Column("professor", Integer, ForeignKey("teachers.id"), nullable=False)
+    teacher = relationship("Teacher", back_populates="learners")
+
+    is_active = Column("é ativo?", Boolean, default=True)
+    created = Column("criado em", DateTime, default=datetime.now())
+    last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
+
+    # @property
+    # def password(self):
+    #     raise AttributeError("Password is write-only!")
+    
+    # def display_name(self):
+    #     return self.name.title()
+
+    # # método customizado
+    # def greet(self):
+    #     return f"Olá, {self.name}!"
+
+class UserConfig(Base):
+    __tablename__ = 'usersconfig'
+    id = Column("id", Integer, primary_key=True, index=True)
+    dark_mode = Column("modo escuro ativo?", Boolean, default=False)
+    language = Column("idioma", Enum(LanguageEnum), nullable=False, default=LanguageEnum.PORTUGUESE_BR)
+    created = Column("criado em", DateTime, default=datetime.now())
+    last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
+
+    # @property
+    # def password(self):
+    #     raise AttributeError("Password is write-only!")
     
     # def display_name(self):
     #     return self.name.title()
