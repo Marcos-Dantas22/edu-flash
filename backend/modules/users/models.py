@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, Integer, String, Boolean, Enum,
-    ForeignKey, Date, DateTime
+    ForeignKey, Date, DateTime, Table
 )
 from sqlalchemy.orm import relationship
 from core.database import Base
@@ -40,6 +40,14 @@ class User(Base):
     # def greet(self):
     #     return f"Olá, {self.name}!"
 
+
+# Tabela de associação
+student_group_flashcards = Table(
+    "student_group_flashcards",
+    Base.metadata,
+    Column("student_id", Integer, ForeignKey("students.id")),
+    Column("group_id", Integer, ForeignKey("group_flashcards.id"))
+)
 class Student(Base):
     __tablename__ = "students"
 
@@ -52,8 +60,11 @@ class Student(Base):
     total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
     total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
 
-    ##TODO: adicionar manytomany para grupo de flashcards
-
+    group_of_flashcards = relationship(
+        "GroupFlashCards",
+        secondary=student_group_flashcards,
+        back_populates="students",
+    )
     is_active = Column("é ativo?", Boolean, default=True)
     created = Column("criado em", DateTime, default=datetime.now())
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
@@ -69,6 +80,16 @@ class Student(Base):
     # def greet(self):
     #     return f"Olá, {self.name}!"
 
+
+
+# Tabela de associação
+teacher_group_flashcards = Table(
+    "teacher_group_flashcards",
+    Base.metadata,
+    Column("teacher_id", Integer, ForeignKey("teachers.id")),
+    Column("group_id", Integer, ForeignKey("group_flashcards_by_teacher.id"))
+)
+
 class Teacher(Base):
     __tablename__ = "teachers"
 
@@ -81,8 +102,12 @@ class Teacher(Base):
     total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
     total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
 
-    ##TODO: adicionar manytomany para grupo de flashcards
-    
+    group_of_flashcards = relationship(
+        "GroupFlashCardsByTeacher",
+        secondary=teacher_group_flashcards,
+        back_populates="teachers",
+    )
+
     learners = relationship("Learner", back_populates="teacher")
 
     is_active = Column("é ativo?", Boolean, default=True)
