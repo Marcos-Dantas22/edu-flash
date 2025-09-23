@@ -8,7 +8,7 @@ from modules.users.utils import GenderEnum, LanguageEnum
 from datetime import datetime
 from sqlalchemy.sql import func
 from passlib.hash import bcrypt
-
+from modules.flashcard_groups.models import permission_learners
 class User(Base):
     __tablename__ = "users"
     id = Column("id", Integer, primary_key=True, index=True)
@@ -138,10 +138,14 @@ class Learner(Base):
     total_games_finished = Column("total de jogos finalizados?", Integer, default=0)
     total_group_memorized = Column("total de grupos memorizados?", Integer, default=0)
 
-    ##TODO: adicionar manytomany para grupo de flashcards em progresso
-
     teacher_id = Column("professor", Integer, ForeignKey("teachers.id"), nullable=False)
     teacher = relationship("Teacher", back_populates="learners")
+
+    permissions = relationship(   
+        "Permission",
+        secondary=permission_learners,
+        back_populates="learners"
+    )
 
     is_active = Column("é ativo?", Boolean, default=True)
     created = Column("criado em", DateTime, default=datetime.now())
