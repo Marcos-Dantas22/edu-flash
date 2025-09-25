@@ -8,6 +8,14 @@ from datetime import datetime
 from sqlalchemy.sql import func
 from modules.flashcard_groups.utils import LevelEnum, TypePermissionEnum
 
+# Tabela de associação
+group_flashcard_association = Table(
+    "group_flashcard_association",
+    Base.metadata,
+    Column("group_id", Integer, ForeignKey("group_flashcards.id"), primary_key=True),
+    Column("flashcard_id", Integer, ForeignKey("flashcards.id"), primary_key=True)
+)
+
 class GroupFlashCards(Base):
     __tablename__ = "group_flashcards"
     id = Column("id", Integer, primary_key=True, index=True)
@@ -23,9 +31,19 @@ class GroupFlashCards(Base):
     created = Column("criado em", DateTime, default=datetime.now())
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
 
-    ##TODO: adicionar manytomany para flashcards
+    flashcards = relationship(
+        "Flashcard",
+        secondary=group_flashcard_association,
+        backref="groups"
+    )
 
-
+# Tabela de associação
+group_teacher_flashcard_association = Table(
+    "group_teacher_flashcard_association",
+    Base.metadata,
+    Column("group_id", Integer, ForeignKey("group_flashcards_by_teacher.id"), primary_key=True),
+    Column("flashcard_id", Integer, ForeignKey("flashcards.id"), primary_key=True)
+)
 class GroupFlashCardsByTeacher(Base):
     __tablename__ = "group_flashcards_by_teacher"
     id = Column("id", Integer, primary_key=True, index=True)
@@ -43,8 +61,11 @@ class GroupFlashCardsByTeacher(Base):
     created = Column("criado em", DateTime, default=datetime.now())
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
 
-    ##TODO: adicionar manytomany para flashcards
-
+    flashcards = relationship(
+        "Flashcard",
+        secondary=group_teacher_flashcard_association,
+        backref="teacher_groups"
+    )
 
 class GroupFlashCardsProgress(Base):
     __tablename__ = "group_flashcards_progress"
