@@ -7,3 +7,4 @@ from tests.fixtures.group_of_flashcard_by_teacher import *
 from tests.fixtures.flashcard_basic_fixture import *
 from tests.fixtures.flashcard_choose_fixture import *
 from tests.fixtures.flashcard_multiple_choice_fixture import *
+from tests.fixtures.group_of_flashcard import *
