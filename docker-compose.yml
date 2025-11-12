@@ -1,4 +1,4 @@
-version: "3.3"
+# version: "3.3"
 
 services:
   backend:
@@ -7,7 +7,7 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
-    container_name: backend
+    container_name: edu_flash_backend
     ports:
       - "8000:8000"
     env_file:
@@ -40,7 +40,7 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - postgres_data:/var/lib/postgresql/data 
+      - edu_flash_data:/var/lib/postgresql/data 
   
   db_test:
     image: postgres:15
@@ -57,4 +57,4 @@ services:
 
       
 volumes:
-  postgres_data:
+  edu_flash_data:
