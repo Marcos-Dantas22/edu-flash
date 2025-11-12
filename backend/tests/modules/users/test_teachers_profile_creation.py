@@ -2,6 +2,7 @@ from faker import Faker
 from passlib.hash import bcrypt
 from modules.users.models import User, Teacher, Learner
 from modules.users.utils import GenderEnum
+from core.security import hash_password, verify_password
 
 fake = Faker()
 
@@ -12,7 +13,7 @@ def create_fake_user(test_db):
         username=fake.user_name(),
         full_name=fake.name(),
         email=fake.email(),
-        password=bcrypt.hash("senha123"),
+        hashed_password=hash_password("senha123"),
         gender=GenderEnum.MALE,
     )
     test_db.add(user)
