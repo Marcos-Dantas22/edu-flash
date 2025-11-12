@@ -15,7 +15,7 @@ class User(Base):
     username = Column("usuario", String, unique=True, index=True)
     full_name = Column("nome completo", String, unique=True )
     email = Column("email", String, unique=True)
-    password = Column("password", String, nullable=False)
+    hashed_password = Column(String(128), nullable=False)
     gender = Column("sexo", Enum(GenderEnum), nullable=False, default=GenderEnum.NONE)
     birth_date = Column("data de nascimento", Date)
     is_active = Column("é ativo?", Boolean, default=True)
@@ -30,8 +30,19 @@ class User(Base):
     # def password(self, plain_password):
     #     self._password = bcrypt.hash(plain_password)
 
-    def check_password(self, plain_password):
-        return bcrypt.verify(plain_password, self.password)
+    # def __repr__(self):
+    #     return f"<User(username={self.username})>"
+    
+    # @property
+    # def password(self):
+    #     raise AttributeError("A senha não pode ser lida diretamente.")
+
+    # @password.setter
+    # def password(self, plain_password):
+    #     self._password = bcrypt.hash(plain_password)
+
+    # def check_password(self, plain_password):
+    #     return bcrypt.verify(plain_password, self._password)
     
     # def display_name(self):
     #     return self.name.title()
