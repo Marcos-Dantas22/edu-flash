@@ -7,6 +7,7 @@ from core.database import Base
 from datetime import datetime
 from sqlalchemy.sql import func
 from modules.flashcard_groups.utils import LevelEnum, TypePermissionEnum
+from modules.flashcards.models import Flashcard
 
 # Tabela de associação
 group_flashcard_association = Table(
@@ -32,7 +33,7 @@ class GroupFlashCards(Base):
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
 
     flashcards = relationship(
-        "Flashcard",
+        Flashcard,
         secondary=group_flashcard_association,
         backref="groups"
     )
@@ -62,7 +63,7 @@ class GroupFlashCardsByTeacher(Base):
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
 
     flashcards = relationship(
-        "Flashcard",
+        Flashcard,
         secondary=group_teacher_flashcard_association,
         backref="teacher_groups"
     )
