@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.router import routers
 from core.config import settings  # config do projeto
 import sentry_sdk
+from core.exceptions import register_exception_handlers
 
 # Configurações do Sentry
 # sentry_sdk.init(
@@ -32,8 +33,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# registrar handlers
+register_exception_handlers(app)
+
 # Registrando rotas
-app.include_router(routers, prefix="/api")
+app.include_router(routers, prefix="/api/v1")
 
 @app.get("/")
 def read_root():
