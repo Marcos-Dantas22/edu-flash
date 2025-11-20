@@ -25,9 +25,9 @@ class User(Base):
     last_update = Column("ultima atualização", DateTime, server_default=func.now(), onupdate=func.now())
 
     @staticmethod
-    def create_user(db: Session, username: str, email: str, password: str):
+    def create_user(db: Session, username: str, email: str, birth_date: str, password: str):
         hashed = hash_password(password)
-        user = User(username=username, email=email, hashed_password=hashed)
+        user = User(username=username, email=email, birth_date=birth_date, hashed_password=hashed)
         db.add(user)
         db.commit()
         db.refresh(user)

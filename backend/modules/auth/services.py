@@ -9,19 +9,23 @@ class AuthService:
         # validações de unicidade
         if User.get_user_by_username(db, data.username):
             raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail={"field": "username", "message": "username ja registrado"},
             )
 
         if User.get_user_by_email(db, data.email):
             raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail={"field": "email", "message": "email ja registrado"},
             )
 
-        # password já validado pelo Pydantic schema (não vazio)
-        # create_user fará o hash internamente
-        return User.create_user(db=db, username=data.username, email=data.email, password=data.password)
+        return User.create_user(
+            db=db, 
+            username=data.username, 
+            email=data.email, 
+            birth_date=data.birth_date,
+            password=data.password
+        )
 
     # @staticmethod
     # def login(db: Session, username: str, password: str):
