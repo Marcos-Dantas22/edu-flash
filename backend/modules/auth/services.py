@@ -9,13 +9,13 @@ class AuthService:
         # validações de unicidade
         if User.get_user_by_username(db, data.username):
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail={"field": "username", "message": "username ja registrado"},
             )
 
         if User.get_user_by_email(db, data.email):
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail={"field": "email", "message": "email ja registrado"},
             )
 
