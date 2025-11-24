@@ -5,6 +5,8 @@ from api.router import routers
 from core.config import settings  # config do projeto
 import sentry_sdk
 from core.exceptions import register_exception_handlers
+from starlette.middleware.base import BaseHTTPMiddleware
+from core.middlewares import validate_api_key
 
 # Configurações do Sentry
 # sentry_sdk.init(
@@ -22,6 +24,12 @@ app = FastAPI(
     docs_url="/docs",        # URL do Swagger
     redoc_url="/redoc",      # URL do ReDoc
     openapi_url="/openapi.json"  # JSON do schema
+)
+
+# Midleware de verificação de APi Key
+app.add_middleware(
+    BaseHTTPMiddleware,
+    dispatch=validate_api_key
 )
 
 # Configuração de CORS

@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DESCRIPTION: str = "Documentação da minha API"
     DATABASE_URL: str  
     TEST_DATABASE_URL: str
+    API_KEY: str
 
     class Config:
         env_file = ".env"  
