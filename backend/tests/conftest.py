@@ -8,3 +8,4 @@ from tests.fixtures.flashcard_basic_fixture import *
 from tests.fixtures.flashcard_choose_fixture import *
 from tests.fixtures.flashcard_multiple_choice_fixture import *
 from tests.fixtures.group_of_flashcard import *
+from tests.fixtures.client import *
